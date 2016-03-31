@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.objectFactory" value="spring" />
+
+	<package name="default" namespace="/" extends="struts-default">
+
+		<!-- <default-action-ref name="index" /> -->
+
+
+		<!-- <global-exception-mappings> <exception-mapping exception="java.lang.Exception" 
+			result="error" /> </global-exception-mappings> -->
+
+		
+		<!-- check user/admin begin -->
+		<action name="login" class="userAction" method="isValid">
+			<result name="success" type="redirect">/jsp/admin/admin.jsp</result>
+			<result name="error">/jsp/admin/login.jsp</result>
+		</action>
+		<action name="userlogin" class="userAction" method="userlogin">
+			<result name="success" type="redirectAction">index</result>
+			<result name="error">/jsp/user/user_login.jsp</result>
+		</action>
+		<action name="loginuser" class="userAction" method="loginuser">
+			<result name="success">/jsp/user/user_login.jsp</result>
+		</action>
+		<action name="reg" class="userAction" method="reg">
+			<result name="success">/jsp/user/user_add.jsp</result>
+		</action>
+
+		<action name="logout" class="userAction" method="logout">
+			<result type="redirectAction">index</result>
+		</action>
+		<!-- check user/admin end -->
+		<!-- verifycode -->
+		<action name="verifyCode" class="userAction" method="verifyCode">
+		</action>
+		<!-- DML user -->
+		<action name="admin" class="adminAction">
+			<result name="success">/jsp/admin/admin.jsp</result>
+			<result name="error">/jsp/admin/login.jsp</result>
+		</action>
+		<!-- 管理员/超级管理员增加用户 -->
+		<action name="adduser" class="userAction" method="addUser">
+			<result>/jsp/user/user_add.jsp</result>
+		</action>
+		<action name="insertbuyer" class="userAction" method="register">
+			<result name="success" type="redirectAction">listallbuyers</result>
+		</action>
+		<action name="insertuser" class="userAction" method="register">
+			<result name="success" type="redirectAction">listallusers</result>
+		</action>
+		<!-- 普通买家注册 -->
+		<action name="saveuser" class="userAction" method="register">
+			<result name="success">/jsp/user/user_login.jsp</result>
+		</action>
+		<action name="deluser" class="userAction" method="deleteUser">
+			<result name="success" type="redirectAction">listallusers</result>
+		</action>
+		<action name="delbuyer" class="userAction" method="deleteUser">
+			<result name="success" type="redirectAction">listallbuyers</result>
+		</action>
+		<action name="modify" class="userAction" method="modify">
+			<result>/jsp/user/user_modify.jsp</result>
+		</action>
+		<action name="modifyuser" class="userAction" method="modifyUser">
+			<result name="success" type="redirectAction">listallusers</result>
+		</action>
+		<!-- list user -->
+		<action name="listallusers" class="userAction" method="listAllUsers">
+			<result>/jsp/user/user_list.jsp</result>
+		</action>
+		<action name="listallbuyers" class="userAction" method="listAllBuyers">
+			<result name="success">/jsp/user/buyer_list.jsp</result>
+		</action>
+		
+		
+		
+		<!-- Item -->
+		<action name="itemlist" class="itemAction" method="itemList">
+			<result name="success">/jsp/items/item_list.jsp</result>
+		</action>
+		<action name="additem" class="itemAction" method="listItemType">
+			<result>/jsp/items/item_add.jsp</result>
+		</action>
+		<action name="saveitem" class="itemAction" method="saveItem">
+			<result name="success" type="redirectAction">itemlist</result>
+		</action>
+		<action name="delitem" class="itemAction" method="deleteItem">
+			<result name="success" type="redirectAction">itemlist</result>
+		</action>
+		<action name="modifyitem" class="itemAction" method="updateItem">
+			<result>/jsp/items/item_modify.jsp</result>
+		</action>
+		<action name="updateitem" class="itemAction" method="modifyItem">
+			<result name="success" type="redirectAction">itemlist</result>
+		</action>
+
+		<!-- Item type -->
+		<action name="typelist" class="itemAction" method="listItemType">
+			<result>/jsp/items/itemtype_list.jsp</result>
+		</action>
+		<action name="additemtype" class="itemAction" method="listItemType">
+			<result>/jsp/items/itemtype_add.jsp</result>
+		</action>
+		<action name="saveitemtype" class="itemAction" method="saveItemType">
+			<result type="redirectAction">typelist</result>
+		</action>
+		<action name="delitemtype" class="itemAction" method="delItemType">
+			<result type="redirectAction">typelist</result>
+		</action>
+		<!-- Item ckeditor upload -->
+		<action name="ckeditorUpload" class="com.onlineshopping.action.CkeditAction">
+		</action>
+		<!-- Item Pic upload -->
+		<action name="upload" class="com.onlineshopping.action.FileUploadAction">
+		</action>
+
+		<!-- Cart -->
+		<action name="addcart" class="cartAction" method="addCart">
+			<result type="redirectAction">showcart</result>
+			<result name="error" type="redirectAction">loginuser</result>
+		</action>
+		<action name="showcart" class="cartAction" method="showCart">
+			<result name="success">/checkout.jsp</result>
+			<result name="error">/jsp/user/user_login.jsp</result>
+		</action>
+		<action name="delitemincart" class="cartAction" method="delItemInCart">
+			<result type="redirectAction">showcart</result>
+		</action>
+		
+		<!-- Order -->
+		<action name="showorder" class="orderAction" method="showOrder">
+			<result name="success">/jsp/order/order_list.jsp</result>	
+			<result name="error">/jsp/user/user_login.jsp</result>	
+		</action>
+		<action name="showuserorder" class="orderAction" method="showUserOrder">
+			<result name="success">/order_list_user.jsp</result>	
+			<result name="error">/jsp/user/user_login.jsp</result>	
+		</action>
+		<action name="orderlist" class="orderAction" method="orderList">
+			<result name="success">/jsp/order/order_list.jsp</result>	
+		</action>
+		<action name="addorder" class="orderAction" method="addOrder">
+			<result name="success">/jsp/order/order_success.jsp</result>	
+		</action>
+		<action name="confirm" class="orderAction" method="confirm">
+			<result name="success">/jsp/order/order_success.jsp</result>	
+		</action>
+		<action name="send" class="orderAction" method="send">
+			<result>/jsp/order/order_send.jsp</result>	
+		</action>
+		
+		<action name="deliver" class="orderAction" method="deliver">
+			<result type="redirectAction">send</result>	
+		</action>
+		
+		
+		
+		<action name="getitemtype" class="itemTypeAction" >	
+		</action>
+		
+		<action name="index" class="indexAction" method="home"> 
+			<result name="success">/index.jsp</result> 
+		</action>
+		<action name="product" class="indexAction" method="product"> 
+			<result name="success">/product_list.jsp</result> 
+		</action>
+		<action name="showsingleitem" class="indexAction" method="showSingleItem">
+			<result>/item_single.jsp</result>	
+		</action>
+		
+
+
+
+	</package>
+
+</struts>
